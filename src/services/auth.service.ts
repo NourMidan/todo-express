@@ -25,7 +25,7 @@ class AuthService {
   public async login(userData: LoginUserDto): Promise<{ token: string; findUser: User }> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
-    const findUser: User = await this.users.findUnique({ where: { email: userData.email } });
+    const findUser: User = await this.users.findUnique({ where: { email: userData.email }, include: { tasks: true } });
     if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);

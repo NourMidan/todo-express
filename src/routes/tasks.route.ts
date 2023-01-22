@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import AuthController from '@controllers/auth.controller';
-import { CreateUserDto } from '@dtos/users.dto';
 import { Routes } from '@interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
@@ -19,6 +17,7 @@ class TasksRoute implements Routes {
   private initializeRoutes() {
     this.router.post(`${this.path}create`, authMiddleware, validationMiddleware(CreateTaskDto, 'body'), this.tasksController.create);
     this.router.patch(`${this.path}:id`, authMiddleware, validationMiddleware(UpdateTaskDto, 'body'), this.tasksController.update);
+    this.router.delete(`${this.path}:id`, authMiddleware, this.tasksController.delete);
   }
 }
 
